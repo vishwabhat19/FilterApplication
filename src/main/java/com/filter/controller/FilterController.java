@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.filter.model.Data;
 import com.filter.model.Product;
 import com.filter.model.ProductResponse;
 import com.filter.repository.ProductRepository;
@@ -20,14 +21,16 @@ public class FilterController {
 	@Autowired
 	ProductRepository productRepository;
 	
+	
+	
 	@Autowired
-	ProductResponse productReponse;
+	Data data;
 	
 //	@Autowired
 //	JdbcTemplate jdbcTemplate;
 	
 	@GetMapping("/product")
-	public List<Product> getFilter(@RequestParam(value = "type",required = false) String type,
+	public Data getFilter(@RequestParam(value = "type",required = false) String type,
 			@RequestParam(value = "min_price",required = false) String minPrice,
 			@RequestParam(value = "max_price",required = false) String maxPrice,
 			@RequestParam(value = "city",required = false) String city,
@@ -59,6 +62,7 @@ public class FilterController {
 		
 		
 		List<Product> products = new ArrayList<Product>();
+		List<ProductResponse> productResponses = new ArrayList<ProductResponse>();
 		
 		
 		
@@ -69,6 +73,17 @@ public class FilterController {
 				.and(specificationForProductPropertyType)
 				.and(specificationForProductColor));
 		
+		if(null != products && !(products.isEmpty())) {
+			for(Product product: products) {
+				ProductResponse productResponse = new ProductResponse();
+				productResponse.setPrice(product.getPrice());
+				productResponse.setProperties(product.getProductProperties());
+				productResponse.setStore_address(product.getStoreAddress());
+				productResponse.setType(product.getProductType());
+				productResponses.add(productResponse);
+			}
+			data.setData(productResponses);
+		}
 		/*
 		 * At this point the products have been filtered to some extent and only the following filters remain:
 		 * property:color			The color of the phone. (String)
@@ -78,7 +93,7 @@ public class FilterController {
 		
 		List<Product> finalProducts = new ArrayList<Product>();
 		if(gbLimitMin==null && gbLimitMax == null) {
-			return products;
+			return data;
 		}
 		
 		
@@ -100,10 +115,23 @@ public class FilterController {
 			
 		}
 		
+		if(null != finalProducts && !(finalProducts.isEmpty())) {
+			productResponses.clear();
+			
+			for(Product product: finalProducts) {
+				ProductResponse productResponse = new ProductResponse();
+				productResponse.setPrice(product.getPrice());
+				productResponse.setProperties(product.getProductProperties());
+				productResponse.setStore_address(product.getStoreAddress());
+				productResponse.setType(product.getProductType());
+				productResponses.add(productResponse);
+			}
+			data.setData(productResponses);
+		}
 
 		
 		
-		return finalProducts;
+		return data;
 	}
 
 }
