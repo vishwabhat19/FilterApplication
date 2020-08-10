@@ -20,9 +20,7 @@ public class Data {
  		
  	}
  	
- 	public Data(List<ProductResponse> products ) {
- 		this.Data = products;
- 	}
+ 	
  	
  	public void addProductResponse(List<ProductResponse> responses) {
  		this.Data = responses;

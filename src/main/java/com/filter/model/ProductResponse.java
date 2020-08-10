@@ -33,12 +33,6 @@ public class ProductResponse {
  		
  	}
  	
- 	public ProductResponse(String productType, String productProperties, BigDecimal price, String storeAddress) {
- 		
- 	    this.type = productType;
- 	    this.properties = productProperties;
- 	    this.price = price;
- 	    this.store_address = storeAddress;
- 	  }
+ 	
 
 }

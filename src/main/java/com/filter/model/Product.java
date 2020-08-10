@@ -35,12 +35,6 @@ public class Product {
 	 		
 	 	}
 	 	
-	 	public Product(String productType, String productProperties, BigDecimal price, String storeAddress) {
-	 		
-	 	    this.productType = productType;
-	 	    this.productProperties = productProperties;
-	 	    this.price = price;
-	 	    this.storeAddress = storeAddress;
-	 	  }
+	 	
 
 }
